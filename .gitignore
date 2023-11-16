@@ -1,0 +1,6 @@
+.terraform
+*.img
+*.qcow2
+*.tfstate
+*.tfstate.backup
+*.terraform.lock.hcl
