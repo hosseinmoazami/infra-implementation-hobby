@@ -1,4 +1,6 @@
+.vscode
 .terraform
+/vm/storage
 *.img
 *.qcow2
 *.tfstate

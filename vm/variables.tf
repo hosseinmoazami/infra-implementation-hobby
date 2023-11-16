@@ -26,13 +26,13 @@ variable "vm_count" {
 variable "memory" {
   description = "RAM in MB"
   type        = string
-  default     = "2048"
+  default     = "1024"
 }
 
 variable "vcpu" {
   description = "Number of vCPUs"
   type        = number
-  default     = 2
+  default     = 1
 }
 
 variable "pool" {
@@ -44,7 +44,7 @@ variable "pool" {
 variable "system_volume" {
   description = "System Volume size (GB)"
   type        = number
-  default     = 10
+  default     = 5
 }
 
 variable "bridge" {
@@ -90,7 +90,7 @@ variable "local_admin" {
 variable "local_admin_passwd" {
   description = "Local admin user password, out of command: mkpasswd -m sha-512 \"123456\""
   type        = string
-  default     = "$6$cY4ddMgtMTv2M.Dp$iaUBGvaEbGKY/YQqaD2YO8GuK6xWY7kIY.4sPSmbsJTX1souS9WSynqm9Q5UhyhqAQhXwTmZZXDsVgNXuNvlP0"
+  default     = "$6$Auox90sh.mnvcuJC$OqvpYApZI2gEus83X6yZvUFl7M3BUYq38FytJ3bnAykEOfwz.rTjQS6uicHWgpwXzZQXHK8AGJ9vPDh/ZZEWg0"
 }
 
 variable "ssh_admin" {
@@ -108,7 +108,7 @@ variable "ssh_keys" {
 variable "ssh_private_key" {
   description = "Private key for SSH connection test"
   type        = string
-  default     = null
+  default     = "~/.ssh/id_ed25519"
 }
 
 variable "autostart" {
@@ -142,15 +142,4 @@ variable "share_filesystem" {
     readonly = false
     mode     = null
   }
-}
-
-variable "runcmd" {
-  description = "Extra commands to be run with cloud init"
-  type        = list(string)
-  default = [
-    "[ systemctl, daemon-reload ]",
-    "[ systemctl, enable, qemu-guest-agent ]",
-    "[ systemctl, start, qemu-guest-agent ]",
-    "[ systemctl, restart, systemd-networkd ]"
-  ]
 }
