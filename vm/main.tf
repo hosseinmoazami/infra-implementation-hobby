@@ -15,7 +15,7 @@ module "vm" {
   ip_gateway         = var.ip_gateway
   ip_nameserver      = var.ip_nameserver
   local_admin        = var.local_admin
-  ssh_admin          = var.ssh_admin
   local_admin_passwd = var.local_admin_passwd
+  ssh_admin          = var.ssh_admin
   ssh_keys           = var.ssh_keys
 }
