@@ -1,3 +1,4 @@
+.vscode
 .terraform
 /vm/storage
 *.img
