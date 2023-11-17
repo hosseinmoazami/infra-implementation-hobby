@@ -26,13 +26,13 @@ variable "vm_count" {
 variable "memory" {
   description = "RAM in MB"
   type        = string
-  default     = "1024"
+  default     = "2048"
 }
 
 variable "vcpu" {
   description = "Number of vCPUs"
   type        = number
-  default     = 1
+  default     = 2
 }
 
 variable "pool" {
