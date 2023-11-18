@@ -16,5 +16,11 @@ variable "namespaces" {
         "group" = "infrastructure"
       }
     }
+    "postgres-ha" = {
+      namespace = "postgres-ha"
+      labels = {
+        "group" = "storage"
+      }
+    }
   }
 }
