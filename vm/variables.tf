@@ -44,7 +44,7 @@ variable "pool" {
 variable "system_volume" {
   description = "System Volume size (GB)"
   type        = number
-  default     = 5
+  default     = 10
 }
 
 variable "bridge" {
