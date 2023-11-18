@@ -21,7 +21,8 @@ def get_location(ip_addr):
             "ip": ip_addr,
             "country": ip_record[0][2],
             "city": ip_record[0][3],
-            "isp": ip_record[0][4]
+            "isp": ip_record[0][4],
+            "fetch": "local"
         }
     else:
         response = requests.get(f'http://ip-api.com/json/{ip_addr}').json()
@@ -30,7 +31,9 @@ def get_location(ip_addr):
                 "ip": ip_addr,
                 "country": response.get("country"),
                 "city": response.get("city"),
-                "isp": response.get("isp")
+                "isp": response.get("isp"),
+                "fetch": "remote"
+
             }
             connect(insert, location_data)
         else:
