@@ -16,7 +16,7 @@ sudo apt install xsltproc
 
 [Ansible]
 Install docker on VMs
-cd ./makeup/docker
+cd ./makeup/ansible/docker
 ansible-playbook playbook.yml -u ssh-admin
 
 [Ansible]
