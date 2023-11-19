@@ -106,8 +106,6 @@ terraform apply --auto-approve
 
 > Manually create a service for expose node, to have access our monitoring on localhost
 
-- [ ] make it automate
-
 ```
 kubectl expose service/kube-prometheus-stack-prometheus -n monitoring --type=NodePort --target-port=9090 --name=prometheus-ext
 kubectl expose service/kube-prometheus-stack-grafana -n monitoring --type=NodePort --target-port=3000 --name=grafana-ex
@@ -174,3 +172,12 @@ pip install -r requirements.txt
 source .env/bin/activate
 .env/bin/uvicorn main:app --reload
 ```
+
+## What to do, what not to do
+
+- [ ] automate service expose
+- [ ] nodePort with specify port
+- [ ] alert manager config
+- [ ] app deploy on k8s
+- [ ] app metrics
+- [ ] app monitoring dashboard
