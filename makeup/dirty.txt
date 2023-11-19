@@ -1,3 +1,9 @@
+[libvirt]
+create pool
+virsh pool-define-as --name vm --type dir --target /var/lib/kvm/storage/vm
+virsh pool-autostart --pool vm
+virsh pool-start --pool vm
+
 [Ansible]
 Install docker on VMs
 cd ./makeup/docker

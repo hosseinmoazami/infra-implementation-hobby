@@ -1,7 +1,7 @@
-output "ip_addresses" {
-  value = module.vm
+output "control-planes-nodes" {
+  value = module.control-plane-vm
 }
 
-output "outputs" {
-  value = module.vm
+output "workers-nodes" {
+  value = module.control-plane-vm
 }
