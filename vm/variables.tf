@@ -44,7 +44,7 @@ variable "pool" {
 variable "pool-vm-dir" {
   description = "Storage pool name"
   type        = string
-  default     = "storage/kvm/vm"
+  default     = "/home/hossein/w/arvan/interview/vm/storage/kvm/vm"
 }
 
 variable "share_filesystem" {
@@ -113,7 +113,7 @@ variable "ssh_admin" {
 variable "ssh_public_key" {
   description = "public ssh keys"
   type        = string
-  default     =  "~/.ssh/id_ed25519.pub"
+  default     = "~/.ssh/id_ed25519.pub"
 }
 
 variable "ssh_private_key" {
@@ -133,8 +133,8 @@ variable "cp_hostname_prefix" {
 
 variable "cp_nodes_count" {
   description = "count of control plane nodes"
-  type = number
-  default = 1
+  type        = number
+  default     = 1
 }
 
 variable "cp_memory" {
@@ -174,8 +174,8 @@ variable "worker_hostname_prefix" {
 
 variable "worker_nodes_count" {
   description = "count of worker nodes"
-  type = number
-  default = 2
+  type        = number
+  default     = 2
 }
 
 variable "worker_memory" {

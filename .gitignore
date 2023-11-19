@@ -6,7 +6,7 @@
 *.qcow2
 *.tfstate
 *.tfstate.backup
-*.terraform.lock.hcl
+*.terraform.*
 
 __pycache__/
 .env
