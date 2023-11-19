@@ -1,3 +1,6 @@
+##########################################
+#             Global Config              #
+##########################################
 variable "os_img_url" {
   description = "URL to the OS image"
   type        = string
@@ -11,42 +14,51 @@ variable "time_zone" {
   default     = "Asia/Tehran"
 }
 
-variable "vm_hostname_prefix" {
-  description = "VM hostname prefix"
-  type        = string
-  default     = "node"
+variable "autostart" {
+  description = "Autostart the domain"
+  type        = bool
+  default     = true
 }
 
-variable "vm_count" {
-  description = "Number of VMs"
+variable "index_start" {
+  description = "From where the indexig start"
   type        = number
-  default     = 3
+  default     = 1
 }
 
-variable "memory" {
-  description = "RAM in MB"
+variable "cpu_mode" {
+  description = "CPU mode"
   type        = string
-  default     = "2048"
+  default     = "host-passthrough"
 }
 
-variable "vcpu" {
-  description = "Number of vCPUs"
-  type        = number
-  default     = 2
-}
-
+##########################################
+#           Storage Config               #
+##########################################
 variable "pool" {
   description = "Storage pool name"
   type        = string
   default     = "vm"
 }
 
-variable "system_volume" {
-  description = "System Volume size (GB)"
-  type        = number
-  default     = 10
+variable "share_filesystem" {
+  type = object({
+    source   = string
+    target   = string
+    readonly = bool
+    mode     = string
+  })
+  default = {
+    source   = null
+    target   = null
+    readonly = false
+    mode     = null
+  }
 }
 
+##########################################
+#           Network Config               #
+##########################################
 variable "bridge" {
   description = "Bridge interface"
   type        = string
@@ -81,6 +93,9 @@ variable "ip_nameserver" {
   default     = "192.168.122.1"
 }
 
+##########################################
+#              Access Config             #
+##########################################
 variable "local_admin" {
   description = "Admin user without ssh access"
   type        = string
@@ -99,10 +114,10 @@ variable "ssh_admin" {
   default     = "ssh-admin"
 }
 
-variable "ssh_keys" {
-  description = "List of public ssh keys"
-  type        = list(string)
-  default     = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJMmHCdpzeuhTYM+W9Jt5x6KaPQdNEGa1wnt5IM0nd4w hossein@Happy"]
+variable "ssh_public_key" {
+  description = "public ssh keys"
+  type        = string
+  default     =  "~/.ssh/id_ed25519.pub"
 }
 
 variable "ssh_private_key" {
@@ -111,35 +126,68 @@ variable "ssh_private_key" {
   default     = "~/.ssh/id_ed25519"
 }
 
-variable "autostart" {
-  description = "Autostart the domain"
-  type        = bool
-  default     = true
-}
-
-variable "index_start" {
-  description = "From where the indexig start"
-  type        = number
-  default     = 1
-}
-
-variable "cpu_mode" {
-  description = "CPU mode"
+##########################################
+#       Control Plane Node Config        #
+##########################################
+variable "cp_hostname_prefix" {
+  description = "control plane hostname prefix"
   type        = string
-  default     = "host-passthrough"
+  default     = "manager-"
 }
 
-variable "share_filesystem" {
-  type = object({
-    source   = string
-    target   = string
-    readonly = bool
-    mode     = string
-  })
-  default = {
-    source   = null
-    target   = null
-    readonly = false
-    mode     = null
-  }
+variable "cp_nodes_count" {
+  description = "count of control plane nodes"
+  type = number
+  default = 1
+}
+
+variable "cp_memory" {
+  description = "RAM in MB"
+  type        = string
+  default     = "3072"
+}
+
+variable "cp_vcpu" {
+  description = "Number of vCPUs"
+  type        = number
+  default     = 2
+}
+
+variable "cp_disk" {
+  description = "System Volume size (GB)"
+  type        = number
+  default     = 10
+}
+
+##########################################
+#         Worker Node Config             #
+##########################################
+variable "worker_hostname_prefix" {
+  description = "control plane hostname prefix"
+  type        = string
+  default     = "worker-"
+}
+
+variable "worker_nodes_count" {
+  description = "count of worker nodes"
+  type = number
+  default = 2
+}
+
+variable "worker_memory" {
+  description = "RAM in MB"
+  type        = string
+  default     = "2048"
+}
+
+variable "worker_vcpu" {
+  description = "Number of vCPUs"
+  type        = number
+  default     = 2
+}
+
+variable "worker_disk" {
+  description = "System Volume size (GB)"
+  type        = number
+  default     = 10
 }
