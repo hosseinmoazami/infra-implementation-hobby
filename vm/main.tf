@@ -4,14 +4,14 @@ module "control-plane-vm" {
   version            = "1.10.0"
   os_img_url         = var.os_img_url
   time_zone          = var.time_zone
+  pool               = var.pool
   vm_hostname_prefix = var.cp_hostname_prefix
   vm_count           = var.cp_nodes_count
   memory             = var.cp_memory
   vcpu               = var.cp_vcpu
   system_volume      = var.cp_disk
-  pool               = var.pool
+  ip_address         = var.cp_ip_address
   dhcp               = var.dhcp
-  ip_address         = var.ip_address
   ip_gateway         = var.ip_gateway
   ip_nameserver      = var.ip_nameserver
   local_admin        = var.local_admin
@@ -20,6 +20,7 @@ module "control-plane-vm" {
   ssh_keys           = [
     file(var.ssh_public_key),
     ]
+  depends_on = [resource.libvirt_pool.pool-vm]
 }
 
 module "workers-vm" {
@@ -27,14 +28,14 @@ module "workers-vm" {
   version            = "1.10.0"
   os_img_url         = var.os_img_url
   time_zone          = var.time_zone
+  pool               = var.pool
   vm_hostname_prefix = var.worker_hostname_prefix
   vm_count           = var.worker_nodes_count
   memory             = var.worker_memory
   vcpu               = var.worker_vcpu
   system_volume      = var.worker_disk
-  pool               = var.pool
+  ip_address         = var.worker_ip_address
   dhcp               = var.dhcp
-  ip_address         = var.ip_address
   ip_gateway         = var.ip_gateway
   ip_nameserver      = var.ip_nameserver
   local_admin        = var.local_admin
@@ -43,4 +44,5 @@ module "workers-vm" {
   ssh_keys           = [
     file(var.ssh_public_key),
     ]
+  depends_on = [resource.libvirt_pool.pool-vm]
 }

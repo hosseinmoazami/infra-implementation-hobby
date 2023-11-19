@@ -4,7 +4,7 @@
 variable "os_img_url" {
   description = "URL to the OS image"
   type        = string
-  default     = "./images/jammy-server-cloudimg-amd64.img" // in my local
+  default     = "./storage/images/jammy-server-cloudimg-amd64.img" // in my local
   #   default     = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
 }
 
@@ -41,6 +41,12 @@ variable "pool" {
   default     = "vm"
 }
 
+variable "pool-vm-dir" {
+  description = "Storage pool name"
+  type        = string
+  default     = "storage/kvm/vm"
+}
+
 variable "share_filesystem" {
   type = object({
     source   = string
@@ -69,16 +75,6 @@ variable "dhcp" {
   description = "Use DHCP or Static IP settings"
   type        = bool
   default     = false
-}
-
-variable "ip_address" {
-  description = "List of IP addresses"
-  type        = list(string)
-  default = [
-    "192.168.122.200",
-    "192.168.122.201",
-    "192.168.122.202"
-  ]
 }
 
 variable "ip_gateway" {
@@ -159,6 +155,14 @@ variable "cp_disk" {
   default     = 10
 }
 
+variable "cp_ip_address" {
+  description = "List of IP addresses"
+  type        = list(string)
+  default = [
+    "192.168.122.200",
+  ]
+}
+
 ##########################################
 #         Worker Node Config             #
 ##########################################
@@ -190,4 +194,13 @@ variable "worker_disk" {
   description = "System Volume size (GB)"
   type        = number
   default     = 10
+}
+
+variable "worker_ip_address" {
+  description = "List of IP addresses"
+  type        = list(string)
+  default = [
+    "192.168.122.201",
+    "192.168.122.202"
+  ]
 }
