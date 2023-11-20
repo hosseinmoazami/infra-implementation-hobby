@@ -144,8 +144,7 @@ variable "vm_cp_config" {
 variable "vm_cp_ip_addr" {
   type = list(string)
   default = [
-    "192.168.122.201",
-    "192.168.122.202"
+    "192.168.122.200"
   ]
 }
 ##########################################
