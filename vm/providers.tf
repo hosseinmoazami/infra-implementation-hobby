@@ -2,7 +2,7 @@ terraform {
   required_providers {
     libvirt = {
       source  = "dmacvicar/libvirt"
-      version = "0.7.4" // This has problem  with output
+      version = "0.7.4" // this version has problem with output
     }
   }
 }
