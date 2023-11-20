@@ -21,7 +21,8 @@ The following packages are required to launch the project:
 - libpq-dev
 
 > xsltproc is a command line tool for applying XSLT stylesheets to XML documents.
-> libpq-dev is required for psycopg2 python module to connect to postgres
+
+> libpq-dev is required for psycopg2 python module to connect to postgres.
 
 ## Create VMs
 
@@ -52,6 +53,8 @@ ansible-playbook playbook.yml -u ssh-admin
 cd k8s-cluster
 ansible-playbook playbook/site.yml -i inventory.yml
 ```
+
+> Be careful to make a backup of ~/.kube/config before running. Because it will be replaced by the new cluster configuration file. If not, you can download the configuration file from the /etc/rancher/k3s/k3s.yaml path.
 
 > If the worker's do not labeled as worker
 

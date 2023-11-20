@@ -125,82 +125,77 @@ variable "ssh_private_key" {
 ##########################################
 #       Control Plane Node Config        #
 ##########################################
-variable "cp_hostname_prefix" {
-  description = "control plane hostname prefix"
-  type        = string
-  default     = "manager-"
+variable "vm_cp_config" {
+  type = object({
+    hostname = string
+    count    = number
+    memory   = string
+    vcpu     = number
+    disk     = number
+  })
+  default = {
+    hostname = "manager-"
+    count    = 1
+    memory   = "3072"
+    vcpu     = 2
+    disk     = 10
+  }
 }
-
-variable "cp_nodes_count" {
-  description = "count of control plane nodes"
-  type        = number
-  default     = 1
-}
-
-variable "cp_memory" {
-  description = "RAM in MB"
-  type        = string
-  default     = "3072"
-}
-
-variable "cp_vcpu" {
-  description = "Number of vCPUs"
-  type        = number
-  default     = 2
-}
-
-variable "cp_disk" {
-  description = "System Volume size (GB)"
-  type        = number
-  default     = 10
-}
-
-variable "cp_ip_address" {
-  description = "List of IP addresses"
-  type        = list(string)
+variable "vm_cp_ip_addr" {
+  type = list(string)
   default = [
-    "192.168.122.200",
+    "192.168.122.200"
+  ]
+}
+##########################################
+#         Worker Node Config             #
+##########################################
+variable "vm_worker_config" {
+  type = object({
+    hostname = string
+    count    = number
+    memory   = string
+    vcpu     = number
+    disk     = number
+  })
+  default = {
+    hostname = "worker-"
+    count    = 2
+    memory   = "2048"
+    vcpu     = 2
+    disk     = 10
+  }
+}
+variable "vm_worker_ip_addr" {
+  type = list(string)
+  default = [
+    "192.168.122.201",
+    "192.168.122.202"
   ]
 }
 
 ##########################################
-#         Worker Node Config             #
+#         Builder Node Config            #
 ##########################################
-variable "worker_hostname_prefix" {
-  description = "control plane hostname prefix"
-  type        = string
-  default     = "worker-"
+variable "vm_builder_config" {
+  type = object({
+    hostname = string
+    count    = number
+    memory   = string
+    vcpu     = number
+    disk     = number
+  })
+  default = {
+    hostname = "builder-"
+    count    = 1
+    memory   = "1024"
+    vcpu     = 1
+    disk     = 5
+  }
 }
-
-variable "worker_nodes_count" {
-  description = "count of worker nodes"
-  type        = number
-  default     = 2
-}
-
-variable "worker_memory" {
-  description = "RAM in MB"
-  type        = string
-  default     = "2048"
-}
-
-variable "worker_vcpu" {
-  description = "Number of vCPUs"
-  type        = number
-  default     = 2
-}
-
-variable "worker_disk" {
-  description = "System Volume size (GB)"
-  type        = number
-  default     = 10
-}
-
-variable "worker_ip_address" {
-  description = "List of IP addresses"
-  type        = list(string)
+variable "vm_builder_ip_addr" {
+  type = list(string)
   default = [
-    "192.168.122.201",
-    "192.168.122.202"
+    "192.168.122.203"
   ]
 }
