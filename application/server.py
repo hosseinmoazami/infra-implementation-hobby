@@ -48,5 +48,5 @@ def get_location(ip_addr):
 if __name__ == '__main__' :
     Instrumentator().instrument(app).expose(app)
     # connect(create_table)
-    
+
     uvicorn.run(app, host="0.0.0.0", port=3000)
