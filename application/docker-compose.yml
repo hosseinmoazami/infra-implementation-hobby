@@ -1,0 +1,10 @@
+version: '3.6'
+services:
+  web-api-ip:
+    container_name: ip-finder
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    restart: 'on-failure'
+    ports:
+      - 3000:3000
