@@ -4,9 +4,7 @@ Arvan's interview challenge
 
 ---
 
-[prerequisite]
-
-## Prerequisite packages
+# Prerequisite packages
 
 The following packages are required to launch the project:
 
@@ -25,8 +23,6 @@ The following packages are required to launch the project:
 > xsltproc is a command line tool for applying XSLT stylesheets to XML documents.
 > libpq-dev is required for psycopg2 python module to connect to postgres
 
-[libvirt]
-
 ## Create VMs
 
 This provider and the following module are required to implement the virtualization infrastructure on the kvm platform.
@@ -43,16 +39,12 @@ terraform plan
 terraform apply --auto-approve
 ```
 
-[Ansible]
-
 ## Install docker on VMs
 
 ```
 cd makeup/ansible/docker
 ansible-playbook playbook.yml -u ssh-admin
 ```
-
-[k8s]
 
 ## Install k8s cluster on VMs
 
@@ -68,8 +60,6 @@ kubectl label node node02 node-role.kubernetes.io/worker=worker
 kubectl label node node03 node-role.kubernetes.io/worker=worker
 ```
 
-[namespaces]
-
 ## Create namespaces by terraform
 
 ### providers
@@ -82,8 +72,6 @@ terraform init
 terraform plan
 terraform apply --auto-approve
 ```
-
-[monitoring]
 
 ## Implement monitoring stack base on prometheus, grafana and alert manager by terraform:
 
@@ -107,9 +95,9 @@ terraform apply --auto-approve
 > Manually create a service for expose node, to have access our monitoring on localhost
 
 ```
-kubectl expose service/kube-prometheus-stack-prometheus -n monitoring --type=NodePort --target-port=9090 --name=prometheus-ext
-kubectl expose service/kube-prometheus-stack-grafana -n monitoring --type=NodePort --target-port=3000 --name=grafana-ex
-kubectl expose service/alertmanager-operated -n monitoring --type=NodePort --target-port=9093 --name=alert-manager-ex
+kubectl expose service/monitoring-stack-kube-prom-prometheus -n monitoring --type=NodePort --target-port=9090 --name=prometheus-ext
+kubectl expose service/monitoring-stack-grafana -n monitoring --type=NodePort --target-port=3000 --name=grafana-ex
+kubectl expose service/monitoring-stack-kube-prom-alertmanager -n monitoring --type=NodePort --target-port=9093 --name=alert-manager-ex
 ```
 
 All services are accessible from control plane IP address and a random port
@@ -125,8 +113,6 @@ kubectl get secret -n monitoring kube-prometheus-stack-grafana -o jsonpath='{.da
 - username: admin
 - password: prom-operator
 
-[postgres-ha]
-
 ## Implement postgres cluster by terraform:
 
 ### providers
@@ -139,45 +125,56 @@ kubectl get secret -n monitoring kube-prometheus-stack-grafana -o jsonpath='{.da
 - repo: https://charts.bitnami.com/bitnami
 - chart: postgresql-ha
 
-http://192.168.122.200:<RANDOM_PORT>/
+```
 kubectl expose service/postgres-ha-postgresql-ha-postgresql -n postgres-ha --type=NodePort --target-port=5432 --name=postgres-ext
+```
 
 ## Retrieve postgres username, password
 
 ```
+
 kubectl get secret -n postgres-ha postgres-ha-postgresql-ha-postgresql -o jsonpath='{.data.password}' | base64 -d
+
 ```
 
 - username: postgres
 - password:
 
-[App]
-
 ## Create python virtual environments
 
 ```
+
 cd application
 python3 -m venv .env
+
 ```
 
 ## Install requirements
 
 ```
+
 pip install -r requirements.txt
+
 ```
 
 ## Start app in env mode
 
 ```
+
 source .env/bin/activate
 .env/bin/uvicorn main:app --reload
+
 ```
 
 ## What to do, what not to do
 
 - [ ] automate service expose
-- [ ] nodePort with specify port
-- [ ] alert manager config
+- [ ] nodePort with specific port
 - [ ] app deploy on k8s
 - [ ] app metrics
 - [ ] app monitoring dashboard
+- [ ] alert manager config
+
+```
+
+```
