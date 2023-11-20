@@ -22,5 +22,11 @@ variable "namespaces" {
         "group" = "storage"
       }
     }
+    "web-api" = {
+      namespace = "web-api"
+      labels = {
+        "group" = "developer"
+      }
+    }
   }
 }
