@@ -143,30 +143,19 @@ kubectl get secret -n postgres-ha postgres-ha-postgresql-ha-postgresql -o jsonpa
 - username: postgres
 - password:
 
-## Create python virtual environments
+## Create python virtual environments and install requirements
 
 ```
-
 cd application
-python3 -m venv .env
-
-```
-
-## Install requirements
-
-```
-
+python3 -m venv venv
 pip install -r requirements.txt
-
 ```
 
 ## Start app in env mode
 
 ```
-
 source .env/bin/activate
 .env/bin/uvicorn main:app --reload
-
 ```
 
 ## What to do, what not to do
@@ -174,10 +163,6 @@ source .env/bin/activate
 - [ ] automate service expose
 - [ ] nodePort with specific port
 - [ ] app deploy on k8s
-- [ ] app metrics
+- [x] app metrics
 - [ ] app monitoring dashboard
 - [ ] alert manager config
-
-```
-
-```
