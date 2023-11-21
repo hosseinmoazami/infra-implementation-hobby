@@ -1,0 +1,13 @@
+---
+- name: Install aptitude
+  apt:
+    name: aptitude
+    state: latest
+    update_cache: true
+
+- name: ensure a container is running
+  docker_container:
+    name: my_container
+    state: started
+    image: "busybox"
+    pull: true
