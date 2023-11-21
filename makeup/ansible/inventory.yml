@@ -10,6 +10,9 @@ vms:
     gitlab_runner:
       hosts:
         192.168.122.203:
+    registry:
+      hosts:
+        192.168.122.203:
 
   vars:
     ansible_port: 22

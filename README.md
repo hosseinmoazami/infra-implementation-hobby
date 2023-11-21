@@ -169,6 +169,25 @@ cd makeup/ansible
 ansible-playbook playbook/gitlab_runner.yml -i inventory.yml
 ```
 
+## Create private registry
+
+```
+cd makeup/ansible
+ansible-playbook playbook/registry.yml -i inventory.yml
+```
+
+> This private registry is insecure and should be trusted by the Docker daemon as described below
+
+add this section to /etc/docker/daemon.json
+
+```
+{
+        "insecure-registries" : [ "registry.local:5000" ]
+}
+```
+
+also add registry.local to hosts
+
 ## Create python virtual environments and install requirements
 
 ```
@@ -199,7 +218,8 @@ source .env/bin/activate
 - [ ] alert manager config
 - [x] install gitlab ce
 - [x] install gitlab runner
-- [ ] create a private registry
+- [x] create a private registry
+- [ ] fix insecure registry in VMs
 - [ ] create ci/cd pipeline on gitlab
 - [ ] build app on builder machine
 - [ ] push app image to private registry

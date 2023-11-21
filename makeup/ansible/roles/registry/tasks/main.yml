@@ -1,0 +1,22 @@
+---
+- name: run registry container
+  docker_container:
+    image: "registry:2"
+    name: registry
+    state: started
+    restart_policy: always
+    ports:
+      - "5000:5000"
+- name: run registry web container
+  docker_container:
+    image: "hyper/docker-registry-web"
+    name: registry-web
+    state: started
+    restart_policy: always
+    links:
+      - "registry"
+    env:
+      REGISTRY_URL: "http://registry.local:5000/v2"
+      REGISTRY_NAME: "registry.local:5000"
+    ports:
+      - "8080:8080"
