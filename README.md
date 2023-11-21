@@ -219,7 +219,7 @@ source .env/bin/activate
 - [x] install gitlab ce
 - [x] install gitlab runner
 - [x] create a private registry
-- [ ] fix insecure registry in VMs
+- [x] fix insecure registry in VMs
 - [ ] create ci/cd pipeline on gitlab
 - [ ] build app on builder machine
 - [ ] push app image to private registry
