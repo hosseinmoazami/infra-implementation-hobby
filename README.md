@@ -143,6 +143,32 @@ kubectl get secret -n postgres-ha postgres-ha-postgresql-ha-postgresql -o jsonpa
 - username: postgres
 - password:
 
+## Install gitlab-ce on host machine
+
+> It's not recommend to install on host. solution is to have a machine for it.
+
+```
+cd makeup/docker/gitlab
+docker compose up -d
+```
+
+### Retrieve gitlab root password
+
+```
+docker exec -it gitlab-server grep 'Password:' /etc/gitlab/initial_root_password
+```
+
+## Install gitlab-runner on builder machine
+
+> before installation must generate a gitlab runner from gitlab and get a token.
+
+> change variable in defaults/main.yml, also need to download gitlab-runner.deb an put in files directory or uncomment curl command in task name Install gitlab runner in tasks/main.yml in this case comment copy task.
+
+```
+cd makeup/ansible
+ansible-playbook playbook/gitlab_runner.yml -i inventory.yml
+```
+
 ## Create python virtual environments and install requirements
 
 ```
@@ -160,9 +186,21 @@ source .env/bin/activate
 
 ## What to do, what not to do
 
+- [x] install prerequisite
+- [x] create VMs by terraform
+- [x] install docker on VMs
+- [x] create namespaces on k8s cluster
+- [x] implement monitoring stack
+- [x] implement postgres cluster
 - [ ] automate service expose
 - [ ] nodePort with specific port
-- [ ] app deploy on k8s
 - [x] app metrics
 - [ ] app monitoring dashboard
 - [ ] alert manager config
+- [x] install gitlab ce
+- [x] install gitlab runner
+- [ ] create a private registry
+- [ ] create ci/cd pipeline on gitlab
+- [ ] build app on builder machine
+- [ ] push app image to private registry
+- [ ] deploy app on k8s
