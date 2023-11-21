@@ -1,0 +1,21 @@
+---
+- name: prepare builder machine
+  hosts: builder
+  gather_facts: true
+  become: true
+  roles:
+    - role: prereq
+
+- name: Install gitlab runner
+  hosts: builder
+  gather_facts: true
+  become: true
+  roles:
+    - role: gitlab_runner
+
+- name: Deploy Private Registry
+  hosts: builder
+  gather_facts: true
+  become: true
+  roles:
+    - role: registry

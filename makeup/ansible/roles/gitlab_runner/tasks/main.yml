@@ -1,28 +1,4 @@
 ---
-- name: Install dependencies
-  apt:
-    name:
-      - apt-transport-https
-      - ca-certificates
-      - curl
-      - gnupg-agent
-      - software-properties-common
-      - build-essential
-      - python3-pip
-    state: present
-    update-cache: yes
-
-- name: Immediately update pip
-  pip:
-    name:
-      - pip
-    state: latest
-
-- name: Install pip dependencies
-  pip:
-    name:
-      - python-gitlab<=1.12.1
-
 - name: Add gitlab-runner user to docker group
   user:
     name: gitlab-runner
@@ -39,12 +15,6 @@
   copy:
     src: ./files/gitlab-runner_amd64.deb
     dest: /home/ssh-admin
-
-- name: Add IP address of hosts
-  lineinfile:
-    dest: /etc/hosts
-    line: "{{ host_ip }} {{ host_name }}"
-    state: present
 
 - name: Install gitlab runner
   shell: |

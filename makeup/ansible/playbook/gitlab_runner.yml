@@ -1,7 +1,0 @@
----
-- name: Install gitlab runner
-  hosts: gitlab_runner
-  gather_facts: true
-  become: true
-  roles:
-    - role: gitlab_runner

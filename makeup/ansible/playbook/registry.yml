@@ -1,7 +1,0 @@
----
-- name: Deploy Private Registry
-  hosts: registry
-  gather_facts: true
-  become: true
-  roles:
-    - role: registry

@@ -190,7 +190,7 @@ variable "vm_builder_config" {
     count    = 1
     memory   = "1024"
     vcpu     = 1
-    disk     = 5
+    disk     = 15
   }
 }
 variable "vm_builder_ip_addr" {
