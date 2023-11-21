@@ -30,3 +30,14 @@
     name: docker-ce
     state: latest
     update_cache: true
+
+- name: Add IP address of private registry
+  lineinfile:
+    dest: /etc/hosts
+    line: "{{ registry_ip }} {{ registry_name }}"
+    state: present
+
+- name: Add insecure private registry to docker daemon
+  copy:
+    src: ./files/daemon.json
+    dest: /etc/docker
