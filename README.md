@@ -44,7 +44,7 @@ terraform apply --auto-approve
 
 ```
 cd makeup/ansible/docker
-ansible-playbook playbook.yml -u ssh-admin
+ansible-playbook playbook/docker.yml -i inventory.yml
 ```
 
 ## Install k8s cluster on VMs
@@ -158,7 +158,7 @@ docker compose up -d
 docker exec -it gitlab-server grep 'Password:' /etc/gitlab/initial_root_password
 ```
 
-## Install gitlab-runner on builder machine
+## Install gitlab-runner and deploy a private registry on builder machine
 
 > before installation must generate a gitlab runner from gitlab and get a token.
 
@@ -166,14 +166,7 @@ docker exec -it gitlab-server grep 'Password:' /etc/gitlab/initial_root_password
 
 ```
 cd makeup/ansible
-ansible-playbook playbook/gitlab_runner.yml -i inventory.yml
-```
-
-## Create private registry
-
-```
-cd makeup/ansible
-ansible-playbook playbook/registry.yml -i inventory.yml
+ansible-playbook playbook/builder.yml -i inventory.yml
 ```
 
 > This private registry is insecure and should be trusted by the Docker daemon as described below
@@ -185,8 +178,6 @@ add this section to /etc/docker/daemon.json
         "insecure-registries" : [ "registry.local:5000" ]
 }
 ```
-
-also add registry.local to hosts
 
 ## Create python virtual environments and install requirements
 
@@ -210,12 +201,13 @@ source .env/bin/activate
 - [x] install docker on VMs
 - [x] create namespaces on k8s cluster
 - [x] implement monitoring stack
-- [x] implement postgres cluster
 - [ ] automate service expose
 - [ ] nodePort with specific port
+- [ ] alert manager config
+- [x] implement postgres cluster
+- [x] app development
 - [x] app metrics
 - [ ] app monitoring dashboard
-- [ ] alert manager config
 - [x] install gitlab ce
 - [x] install gitlab runner
 - [x] create a private registry

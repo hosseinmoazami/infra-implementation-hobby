@@ -7,6 +7,7 @@
     restart_policy: always
     ports:
       - "5000:5000"
+
 - name: run registry web container
   docker_container:
     image: "hyper/docker-registry-web"

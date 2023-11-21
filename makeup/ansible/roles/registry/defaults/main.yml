@@ -1,5 +1,1 @@
 ---
-host_ip: "192.168.77.98"
-host_name: "gitlab.local"
-gitlab_url: "http://gitlab.local:8929"
-reg_token: "glrt-z3bhQMRQG251zTWhCSgx"

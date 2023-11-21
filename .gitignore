@@ -8,6 +8,8 @@
 *.tfstate.backup
 *.terraform.*
 
+*.deb
+
 __pycache__/
 .env
 .venv
