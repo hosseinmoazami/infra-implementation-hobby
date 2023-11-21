@@ -1,0 +1,16 @@
+---
+vms:
+  children:
+    docker:
+      hosts:
+        192.168.122.200:
+        192.168.122.201:
+        192.168.122.202:
+        192.168.122.203:
+    gitlab:
+      hosts:
+        192.168.122.203:
+
+  vars:
+    ansible_port: 22
+    ansible_user: ssh-admin
