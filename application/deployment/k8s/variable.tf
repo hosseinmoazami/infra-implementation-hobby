@@ -25,7 +25,7 @@ variable "namespace" {
 
 variable "image" {
   type    = string
-  default = "web_api_ip_finder"
+  default = "registry.local:5000/ip_finder"
 }
 
 variable "port" {

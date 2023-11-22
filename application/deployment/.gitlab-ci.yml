@@ -1,0 +1,44 @@
+stages:
+  - Build
+  - Deploy
+
+Build:
+  stage: Build
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+    GIT_STRATEGY: fetch
+  only:
+    - main
+  when: manual
+  allow_failure: false
+  tags:
+    - builder
+  script:
+    - export IMAGE_TAG=${CI_COMMIT_SHA:0:4}
+    - echo "VERSION is $IMAGE_TAG"
+    - echo "Building $CI_REGISTRY_ADDR/$CI_GROUP_NAME/$CI_PROJECT_NAME:$IMAGE_TAG Docker Image"
+    - mkdir deployment/tmp
+    - /bin/sh deployment/Dockerfile > deployment/tmp/Dockerfile
+    - docker build --rm -f "deployment/tmp/Dockerfile" -t "$CI_REGISTRY_ADDR/$CI_GROUP_NAME/$CI_PROJECT_NAME:$IMAGE_TAG" .
+    - echo "Pushing $CI_REGISTRY_ADDR/$CI_GROUP_NAME/$CI_PROJECT_NAME:$IMAGE_TAG Docker Image to Docker Registry"
+    - docker push "$CI_REGISTRY_ADDR/$CI_GROUP_NAME/$CI_PROJECT_NAME:$IMAGE_TAG"
+    - unset IMAGE_TAG
+    - rm -rf deployment/tmp
+
+Deploy (K8S):
+  stage: Deploy
+  when: manual
+  only:
+    - main
+  tags:
+    - deployer-k8s
+  image:
+    name: bitnami/kubectl:$K8S_CLUSTER_VERSION
+    entrypoint: [""]
+  script:
+    - export IMAGE_TAG=${CI_COMMIT_SHA:0:4}
+    - echo "VERSION is $IMAGE_TAG"
+    - cd deployment/k8s
+    - terraform apply --auto-approve
+    - unset IMAGE_TAG
+    - rm -rf deployment/tmp
