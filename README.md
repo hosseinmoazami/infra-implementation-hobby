@@ -4,7 +4,7 @@ Arvan's interview challenge
 
 ---
 
-# Prerequisite packages
+## Prerequisite packages
 
 The following packages are required to launch the project:
 
@@ -45,6 +45,42 @@ terraform apply --auto-approve
 ```
 cd makeup/ansible/docker
 ansible-playbook playbook/docker.yml -i inventory.yml
+```
+
+## Install gitlab-ce on host machine
+
+> It's not recommend to install on host. solution is to have a machine for it.
+
+```
+cd makeup/docker/gitlab
+docker compose up -d
+```
+
+### Retrieve gitlab root password
+
+```
+docker exec -it gitlab-server grep 'Password:' /etc/gitlab/initial_root_password
+```
+
+## Install gitlab-runner and deploy a private registry on builder machine
+
+> before installation must generate a gitlab runner from gitlab and get a token.
+
+> change variable in defaults/main.yml, also need to download gitlab-runner.deb an put in files directory or uncomment curl command in task name Install gitlab runner in tasks/main.yml in this case comment copy task.
+
+```
+cd makeup/ansible
+ansible-playbook playbook/builder.yml -i inventory.yml
+```
+
+> This private registry is insecure and should be trusted by the Docker daemon as described below
+
+add this section to /etc/docker/daemon.json
+
+```
+{
+        "insecure-registries" : [ "registry.local:5000" ]
+}
 ```
 
 ## Install k8s cluster on VMs
@@ -142,42 +178,6 @@ kubectl get secret -n postgres-ha postgres-ha-postgresql-ha-postgresql -o jsonpa
 
 - username: postgres
 - password:
-
-## Install gitlab-ce on host machine
-
-> It's not recommend to install on host. solution is to have a machine for it.
-
-```
-cd makeup/docker/gitlab
-docker compose up -d
-```
-
-### Retrieve gitlab root password
-
-```
-docker exec -it gitlab-server grep 'Password:' /etc/gitlab/initial_root_password
-```
-
-## Install gitlab-runner and deploy a private registry on builder machine
-
-> before installation must generate a gitlab runner from gitlab and get a token.
-
-> change variable in defaults/main.yml, also need to download gitlab-runner.deb an put in files directory or uncomment curl command in task name Install gitlab runner in tasks/main.yml in this case comment copy task.
-
-```
-cd makeup/ansible
-ansible-playbook playbook/builder.yml -i inventory.yml
-```
-
-> This private registry is insecure and should be trusted by the Docker daemon as described below
-
-add this section to /etc/docker/daemon.json
-
-```
-{
-        "insecure-registries" : [ "registry.local:5000" ]
-}
-```
 
 ## Create python virtual environments and install requirements
 
