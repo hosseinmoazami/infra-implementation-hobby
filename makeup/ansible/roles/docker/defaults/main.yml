@@ -1,3 +1,4 @@
 ---
 registry_ip: "192.168.122.203"
 registry_name: "registry.local"
+registry_addr: "registry.local:5000"
