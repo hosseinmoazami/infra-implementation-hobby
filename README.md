@@ -10,9 +10,11 @@ The following packages are required to launch the project:
 
 - terraform
 - ansible
+- docker
+- docker compose
 - python3.10.12
 - pip
-- qumu-kvm
+- qemu-kvm
 - libvirt
 - libvirt-daemon-system
 - libvirt-daemon
@@ -62,7 +64,9 @@ docker compose up -d
 docker exec -it gitlab-server grep 'Password:' /etc/gitlab/initial_root_password
 ```
 
-## Install gitlab-runner and deploy a private registry on builder machine
+## Prepare builder machine
+
+Install gitlab-runner and deploy a private registry
 
 > before installation must generate a gitlab runner from gitlab and get a token.
 
@@ -112,7 +116,9 @@ terraform plan
 terraform apply --auto-approve
 ```
 
-## Implement monitoring stack base on prometheus, grafana and alert manager by terraform:
+## Implement monitoring stack
+
+consist of prometheus, grafana and alert manager
 
 ### providers
 
@@ -142,7 +148,7 @@ kubectl expose service/monitoring-stack-kube-prom-alertmanager -n monitoring --t
 All services are accessible from control plane IP address and a random port
 http://192.168.122.200:<RANDOM_PORT>/
 
-## Retrieve grafana username, password
+### Retrieve grafana username, password
 
 ```
 kubectl get secret -n monitoring kube-prometheus-stack-grafana -o jsonpath='{.data.admin-user}' | base64 -d
@@ -165,10 +171,19 @@ kubectl get secret -n monitoring kube-prometheus-stack-grafana -o jsonpath='{.da
 - chart: postgresql-ha
 
 ```
+cd postgres-cluster
+terraform init
+terraform plan
+terraform apply --auto-approve
+```
+
+> Manually create a service for expose node, to have access on localhost
+
+```
 kubectl expose service/postgres-ha-postgresql-ha-postgresql -n postgres-ha --type=NodePort --target-port=5432 --name=postgres-ext
 ```
 
-## Retrieve postgres username, password
+### Retrieve postgres username, password
 
 ```
 
@@ -179,7 +194,9 @@ kubectl get secret -n postgres-ha postgres-ha-postgresql-ha-postgresql -o jsonpa
 - username: postgres
 - password:
 
-## Create python virtual environments and install requirements
+## Web api application
+
+Create python virtual environments and install requirements
 
 ```
 cd application
@@ -187,7 +204,7 @@ python3 -m venv venv
 pip install -r requirements.txt
 ```
 
-## Start app in env mode
+### Start app in env mode
 
 ```
 source .env/bin/activate
