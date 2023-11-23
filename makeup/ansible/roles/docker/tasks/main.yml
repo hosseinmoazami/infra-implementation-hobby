@@ -38,6 +38,6 @@
     state: present
 
 - name: Add insecure private registry to docker daemon
-  copy:
-    src: ./files/daemon.json
+  template:
+    src: daemon.json.j2
     dest: /etc/docker
