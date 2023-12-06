@@ -1,6 +1,6 @@
-# Arvan
+# infra-implementation-hobby
 
-Arvan's interview challenge
+A Funny project for test my infrastructure knowledge
 
 ---
 
