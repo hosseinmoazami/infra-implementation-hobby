@@ -1,57 +1,71 @@
-version: "3.8"
 services:
   redis:
     image: redis
-    hostname: 'git-redis.nafis.cloud'
+    hostname: "redis.svc.cf.hossein.cloud"
     container_name: gitlab-redis
+    command:
+      - --loglevel warning
     restart: always
     networks:
       - gitlab
     volumes:
-      - '/etc/timezone:/etc/timezone:ro'
-      - '/etc/localtime:/etc/localtime:ro'
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
     logging:
       options:
         max-size: "200k"
         max-file: "10"
 
-  server:
-    image: 'gitlab/gitlab-ce:latest'
+  gitlab:
+    image: "gitlab/gitlab-ce:latest"
     container_name: gitlab-server
     restart: always
-    hostname: 'gitlab.local'
+    hostname: "gitlab.svc.cf.hossein.cloud"
     depends_on:
       - redis
     networks:
       - gitlab
+    ports:
+      - "8929:8929"
+      - "2224:22"
+      - "80:80"
     volumes:
-      - '/etc/timezone:/etc/timezone:ro'
-      - '/etc/localtime:/etc/localtime:ro'
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+    healthcheck:
+      test: ["CMD", "/usr/local/sbin/healthcheck"]
+      interval: 5m
+      timeout: 10s
+      retries: 3
+      start_period: 5m
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://gitlab.local:8929'
-        redis['enable'] = false
+        DEBUG=false
+
+        external_url 'http://gitlab.svc.cf.hossein.cloud:8929'
+
+        # Redis configuration
+        redis['enable'] = true
+        gitlab_rails['redis_host'] = 'redis'
+        gitlab_rails['redis_port'] = 6379
+        gitlab_rails['redis_database'] = 0
+
+        # Additional GitLab configurations
         letsencrypt['enable'] = false
         gitlab_rails['gitlab_shell_ssh_port'] = 2224
         gitlab_rails['smtp_enable'] = false
         gitlab_rails['gitlab_timezone'] = 'Asia/Tehran'
-        gitlab_rails['gitlab_host'] = 'http://gitlab.local'
+        gitlab_rails['gitlab_host'] = 'http://gitlab.svc.cf.hossein.cloud'
         gitlab_rails['gitlab_root_password'] = 'UEvxHSkU'
         gitlab_rails['gitlab_root_email'] = 'hossein@gitlab.local'
         gitlab_rails['gitlab_port'] = 80
         gitlab_rails['gitlab_ssh_port'] = 22
-        gitlab_rails['redis_host'] = 'redis'
-        gitlab_rails['redis_port'] = '6379'
-        gitlab_rails['redis_database'] = 0
-    ports:
-      - '8929:8929'
-      - '2224:22'
-      - '80:80'
+
     logging:
       options:
         max-size: "200k"
         max-file: "10"
-        
+
 networks:
   gitlab:
     name: gitlab
